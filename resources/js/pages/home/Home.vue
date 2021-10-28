@@ -151,18 +151,24 @@
       </div>
       <activities-component :lang="store.getters.Lang"></activities-component>
       <who :lang="store.getters.Lang"></who>
-      <portfolio-index :lang="store.getters.Lang"></portfolio-index>
+      <experiencies :lang="store.getters.Lang"></experiencies>
+      <portfolio-index
+        id="portfolio-index"
+        :lang="store.getters.Lang"
+      ></portfolio-index>
+      <contact id="kontakt" :lang="store.getters.Lang"></contact>
     </div>
   </div>
 </template>
 <script>
 import { Icon } from "@iconify/vue";
-import useProjects from "../../composables/projects";
 import useTools from "../../composables/tools";
 import { onMounted, computed, ref } from "vue";
 import ActivitiesComponent from "../../components/activities/Activites.vue";
 import Who from "../../components/who/Who.vue";
 import PortfolioIndex from "../../components/portfolio/portfolioIndex.vue";
+import Experiencies from "../../components/experiencies/Experiencies.vue";
+import Contact from "../../components/mail/Contact.vue";
 
 export default {
   computed: {
@@ -171,14 +177,10 @@ export default {
     },
   },
   setup() {
-    const { projects, getProjects } = useProjects();
-    onMounted(getProjects);
-
     const { tools, getTools } = useTools();
     onMounted(getTools);
 
     return {
-      projects,
       tools,
     };
   },
@@ -187,6 +189,8 @@ export default {
     Who,
     ActivitiesComponent,
     PortfolioIndex,
+    Experiencies,
+    Contact,
   },
 };
 </script>

@@ -2,8 +2,8 @@
 
 namespace App\Models\Portfolio;
 
-use App\Models\Portolio\PortfolioImage;
-use App\Models\Portolio\PortfolioSection;
+use App\Models\Portfolio\PortfolioImage;
+use App\Models\Portfolio\PortfolioSection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,5 +19,10 @@ class Portfolio extends Model
     public function sections()
     {
         return $this->hasMany(PortfolioSection::class);
+    }
+
+    public function links()
+    {
+        return $this->hasMany(PortfolioLink::class);
     }
 }

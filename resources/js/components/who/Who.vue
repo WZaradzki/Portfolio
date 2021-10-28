@@ -33,7 +33,7 @@
             "
           >
             <img
-              class="object-cover w-30 h-30 mr-2 rounded-full"
+              class="object-cover w-1/3 h-48 md:w-1/6 mr-2 rounded-full"
               :src="bioLang.image"
               alt="Profile image"
             />

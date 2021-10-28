@@ -18,4 +18,10 @@ Route::get('{any}', function () {
 })->where('any', '.*');
 
 
-require __DIR__.'/auth.php';
+// Route::get('/mailable', function () {
+//     $contact = App\Models\Mail\Contact::first();
+
+//     return new App\Mail\ContactMail($contact);
+// });
+
+require __DIR__ . '/auth.php';

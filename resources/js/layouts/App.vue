@@ -79,11 +79,16 @@
                   alt="Logo"
                 />
               </router-link>
-              <a
-                v-for="page in navigation.pages"
+
+              <router-link
+                v-if="store.getters.Lang == 'PL'"
+                @click="open = false"
+                v-for="page in navigation.pages.pl"
                 :key="page.name"
-                :href="page.href"
+                :to="page.href"
                 class="
+                  transition
+                  duration-500
                   flex
                   items-center
                   justify-start
@@ -91,7 +96,25 @@
                   text-gray-700
                   hover:text-gray-800
                 "
-                >{{ page.name }}</a
+                >{{ page.name }}</router-link
+              >
+              <router-link
+                v-else
+                @click="open = false"
+                v-for="page in navigation.pages.eng"
+                :key="page.name"
+                :to="page.href"
+                class="
+                  transition
+                  duration-500
+                  flex
+                  items-center
+                  justify-start
+                  font-medium
+                  text-gray-700
+                  hover:text-gray-800
+                "
+                >{{ page.name }}</router-link
               >
             </div>
           </div>
@@ -130,10 +153,11 @@
             <div class="flex">
               <PopoverGroup class="hidden lg:ml-8 lg:block lg:self-stretch">
                 <div class="h-full flex justify-end space-x-2">
-                  <a
-                    v-for="page in navigation.pages"
+                  <router-link
+                    v-if="store.getters.Lang == 'PL'"
+                    v-for="page in navigation.pages.pl"
                     :key="page.name"
-                    :href="page.href"
+                    :to="page.href"
                     class="
                       flex
                       items-center
@@ -142,17 +166,34 @@
                       text-black
                       hover:text-gray-800
                     "
-                    >{{ page.name }}</a
+                    >{{ page.name }}</router-link
+                  >
+                  <router-link
+                    v-else
+                    v-for="page in navigation.pages.eng"
+                    :key="page.name"
+                    :to="page.href"
+                    class="
+                      flex
+                      items-center
+                      text-sm
+                      font-medium
+                      text-black
+                      hover:text-gray-800
+                    "
+                    >{{ page.name }}</router-link
                   >
                 </div>
               </PopoverGroup>
               <div class="flex p-1 pl-3">
                 <Icon
+                  v-if="store.getters.Lang == 'PL'"
                   @click="ChangeLang('ENG')"
                   class="h-10 w-10 cursor-pointer"
                   icon="openmoji:flag-united-kingdom"
                 />
                 <Icon
+                  v-if="store.getters.Lang == 'ENG'"
                   @click="ChangeLang('PL')"
                   class="h-10 w-10 cursor-pointer"
                   icon="openmoji:flag-poland"
@@ -166,10 +207,22 @@
     <div>
       <router-view></router-view>
     </div>
+    <div class="social-menu">
+      <span class="transform rotate-90 fixed bottom-24 right-1 text-lg th-color"
+        >GitHub</span
+      >
+      <a href="https://github.com/WZaradzki" target="_blank">
+        <Icon
+          class="h-10 w-10 cursor-pointer fixed bottom-5 right-4 th-color"
+          icon="akar-icons:github-fill"
+        />
+      </a>
+    </div>
   </div>
 </template>
 
 <script>
+import { useStore } from "vuex";
 import { Icon } from "@iconify/vue";
 import { ref } from "vue";
 import {
@@ -195,10 +248,16 @@ import {
 } from "@heroicons/vue/outline";
 
 const navigation = {
-  pages: [
-    { name: "Kontakt", href: "#" },
-    { name: "Portfolio", href: "#" },
-  ],
+  pages: {
+    pl: [
+      { name: "Kontakt", href: "../#kontakt" },
+      { name: "Portfolio", href: "../#portfolio-index" },
+    ],
+    eng: [
+      { name: "Contact", href: "../#kontakt" },
+      { name: "Portfolio", href: "../#portfolio-index" },
+    ],
+  },
 };
 
 export default {
@@ -224,10 +283,12 @@ export default {
   },
   setup() {
     const open = ref(false);
+    const store = useStore();
 
     return {
       navigation,
       open,
+      store,
     };
   },
   methods: {

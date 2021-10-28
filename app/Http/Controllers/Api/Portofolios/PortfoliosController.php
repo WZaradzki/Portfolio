@@ -40,13 +40,34 @@ class PortfoliosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show($slug, Request $request)
     {
-        return Portfolio::find($request->id)->with(['images' => function ($image) use ($request) {
-            $image->where('lang', $request->lang);
-        }, 'sections' => function ($section) use ($request) {
+        return Portfolio::where('lang_index', $slug)->where('lang', $request->lang)->with(['images', 'sections' => function ($section) use ($request) {
             $section->where('lang', $request->lang);
-        }])->get();
+        }, 'links'])->first();
+    }
+
+    public function next($slug, Request $request)
+    {
+        if ($slug) {
+            $actual = Portfolio::where('lang_index', $slug)->where('lang', $request->lang)->first()->id;
+
+            $next = Portfolio::where('id', '>',  $actual)->where('lang', $request->lang)->first();
+
+            return $next;
+        }
+    }
+
+    public function prev($slug, Request $request)
+    {
+        if ($slug) {
+
+            $actual = Portfolio::where('lang_index', $slug)->where('lang', $request->lang)->first()->id;
+
+            $prev = Portfolio::where('id', '<',  $actual)->where('lang', $request->lang)->get()->last();
+
+            return $prev;
+        }
     }
 
     /**

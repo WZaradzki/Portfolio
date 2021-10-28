@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, scrollBehavior } from "vue-router";
 
 const routes = [
     {
@@ -20,4 +20,28 @@ const routes = [
 export default createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (to.hash) {
+            setTimeout(() => {
+                const element = document.getElementById(
+                    to.hash.replace(/#/, "")
+                );
+                if (element && element.scrollIntoView) {
+                    element.scrollIntoView({
+                        block: "start",
+                        behavior: "smooth",
+                    });
+                }
+            }, 500);
+
+            //NOTE: This doesn't work for Vue 3
+            //return {selector: to.hash}
+
+            //This does
+            return { el: to.hash };
+        } else if (savedPosition) {
+            return savedPosition;
+        }
+        return { top: 0, behavior: "smooth" };
+    },
 });

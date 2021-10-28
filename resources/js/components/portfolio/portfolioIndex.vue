@@ -22,18 +22,21 @@
       <div
         v-for="portfolio in portfolios"
         :key="portfolio.id"
-        class="mt-10 grid grid-cols-1 md:grid-cols-2 w-full"
+        class="mt-10 flex items-center flex-col md:flex-row justify-start"
       >
         <img
           :src="portfolio.cover"
-          class="w-full rounded-md object-contain md:object-cover h-80"
+          class="w-60 rounded-md object-contain h-60"
           :alt="portfolio.title"
         />
         <div class="w-full flex flex-col gap-y-5 justify-center p-3">
           <h1 class="text-3xl font-bold th-color">{{ portfolio.title }}</h1>
           <p class="text-base fr-color" v-html="portfolio.description"></p>
           <router-link
-            :to="{ name: 'portfolio', params: { slug: portfolio.slug } }"
+            :to="{
+              name: 'portfolio',
+              params: { slug: portfolio.lang_index },
+            }"
             class="
               flex
               items-center
