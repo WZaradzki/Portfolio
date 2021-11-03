@@ -22,3 +22,4 @@ yarn-error.log
 /public/js4
 /public/js5
 /public/js6
+.DS_Store
